@@ -9,6 +9,7 @@ public class Moto : MonoBehaviour
         playerMovement.GetAnimator().SetTrigger("die");
         playerMovement.GetRigidbody2D().gravityScale = 0;
         playerMovement.GetRigidbody2D().linearVelocity = Vector2.zero;
+        playerMovement.Fall();
 
     }
 }

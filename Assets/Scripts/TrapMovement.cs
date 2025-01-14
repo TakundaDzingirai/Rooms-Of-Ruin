@@ -1,49 +1,61 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class TrapMovement : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float damage;
     public float speed;
     private Animator animator;
     public float dir { get; private set; }
+    public float sawDist;
+    private float leftEdge;
+    private float rightEdge;
+    private Rigidbody2D rb;
 
     private void Awake()
     {
         dir = -1;
         animator = GetComponent<Animator>();
-    }
+        rb = GetComponent<Rigidbody2D>();
 
+        // Calculate movement boundaries
+        leftEdge = transform.position.x - sawDist;
+        rightEdge = transform.position.x + sawDist;
+    }
 
     private void Update()
     {
-        float move = speed * dir *Time.deltaTime; 
-        transform.Translate(move, 0, 0);
+        // Prevent trap from moving beyond boundaries
+        if (transform.position.x <= leftEdge)
+        {
+            transform.position = new Vector3(leftEdge, transform.position.y, transform.position.z); // Snap to edge
+            ChangeDirection();
+            if (animator != null) animator.SetBool("saw", false);
+        }
+        else if (transform.position.x >= rightEdge)
+        {
+            transform.position = new Vector3(rightEdge, transform.position.y, transform.position.z); // Snap to edge
+            ChangeDirection();
+            if (animator != null) animator.SetBool("saw", true);
+        }
+
+        // Apply velocity for consistent movement
+        rb.linearVelocity = Vector2.right * speed * dir;
     }
-
-
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Health>().TakeDamage(damage);
-        }
-        else if (collision.gameObject.tag == "Left")
-        {
-            ChangeDirection();
-            animator.SetBool ("saw",false);
-
-        }
-        else if(collision.gameObject.tag == "Right")
-        {
-            ChangeDirection();
-            animator.SetBool("saw",true);
+            Health health = collision.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+            }
         }
     }
-    public void ChangeDirection()
+
+    private void ChangeDirection()
     {
-        dir =-dir;
+        dir = -dir; // Flip direction
     }
 }

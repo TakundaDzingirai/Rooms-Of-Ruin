@@ -9,6 +9,9 @@ TagManager:
   - Left
   - Right
   - Saw
+  - Heart
+  - Tail
+  - Door
   layers:
   - Default
   - TransparentFX

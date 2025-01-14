@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public Transform prevRoom;
+    //public Transform prevRoom;
     public Transform nextRoom;
     public CameraScript cam;
+    public float centreCorrection;
 
 
 
@@ -21,14 +22,25 @@ public class Door : MonoBehaviour
 
             if (collision.transform.position.x < transform.position.x)
             {
+          
                 Debug.Log("Moving to Next Room");
+
                 cam.MoveToNewRoom(nextRoom);
+                Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
+                tail.GetComponent<BoxCollider2D>().isTrigger = false;
+                
+                
+                
+
             }
-            else
-            {
-                Debug.Log("Moving to Previous Room");
-                cam.MoveToNewRoom(prevRoom);
-            }
+          
+        }
+        else if(collision.tag == "Tail")
+        {
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            Debug.Log("Door Lock");
+
         }
     }
 
