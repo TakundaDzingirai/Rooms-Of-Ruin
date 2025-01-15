@@ -43,7 +43,7 @@ public class PlayerAttack : MonoBehaviour
             if (!fireballs[i].activeInHierarchy)
             {
 
-                print("fireball "+i);
+               
                 return i;
             }
         }

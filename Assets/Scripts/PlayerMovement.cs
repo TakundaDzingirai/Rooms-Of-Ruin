@@ -1,3 +1,4 @@
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour 
@@ -7,12 +8,17 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float jumpStrength;
     private  Animator m_Animator;
-    private bool isGrounded=true;
+   
     public BoxCollider2D boxCollider;
     public LayerMask groundLayer;
     public LayerMask wallLayer;
     private float jumpWallCoolDown;
     private float horizontalVal;
+    private bool fall;
+    public float xCorrection;
+    public Transform tail;
+    public GameObject[] dragonParts;
+    public bool dead {  get; private set; }
     
 
 
@@ -22,16 +28,32 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody2= GetComponent<Rigidbody2D>();
         m_Animator = GetComponent<Animator>();  
         boxCollider = GetComponent<BoxCollider2D>();
+        dead = false;
+        fall = false;
     }
     public Animator GetAnimator() { return m_Animator; }    
     public Rigidbody2D GetRigidbody2D() { return m_Rigidbody2; }    
     private void Update()
     {
+
+
+        if (dead)
+        {
+            if (!fall)
+            {
+                transform.rotation = Quaternion.Euler(transform.position.x, transform.position.y, -90);
+            }
+
+            return;
+        }
         horizontalVal = Input.GetAxis("Horizontal");
 
         if (jumpWallCoolDown > 0.2f)
         {
+
+           
             m_Rigidbody2.linearVelocity = new Vector2(horizontalVal * speed, m_Rigidbody2.linearVelocity.y);
+          
 
             if (OnWall() && !IsGrounded())
             {
@@ -102,28 +124,53 @@ public class PlayerMovement : MonoBehaviour
     {
         Debug.Log(collision.gameObject.tag);
 
-        //if ( == "moto")
-        //{
-        //    m_Animator.SetTrigger("die");
-        //    m_Rigidbody2.angularVelocity = 0;
-        //    m_Rigidbody2.gravityScale = 0;
-        //    Debug.Log("Dieeeee");
-          
-        //}
+       
     }
     private bool IsGrounded()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
-        return raycastHit.collider!=null;
+        BoxCollider2D box;
+        for (int i = 0; i < dragonParts.Length; i++)
+        {
+            box = dragonParts[i].GetComponent<BoxCollider2D>();
+          RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, box.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+            if (raycastHit.collider != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     private bool OnWall()
     {
-        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.1f, wallLayer);
-        return raycastHit.collider != null;
+
+        BoxCollider2D box;
+        for (int i = 0; i < dragonParts.Length; i++)
+        {
+            box = dragonParts[i].GetComponent<BoxCollider2D>();
+            RaycastHit2D raycastHit = Physics2D.BoxCast(box.bounds.center, box.bounds.size, 0, new Vector2(transform.localScale.x, 0), 0.1f, wallLayer);
+            if (raycastHit.collider != null)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     public bool CanAttack()
     {
         return IsGrounded() && !OnWall() && horizontalVal == 0;
     }
+    public void Die()
+    {
+        dead = true;
+    }
+    public void Fall()
+    {
+        fall = true;
+    }
+    public void Recentre()
+    {
+        transform.position= new Vector3(transform.position.x-xCorrection,transform.position.y,transform.position.z);
+    }
+
 
 }

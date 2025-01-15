@@ -10,6 +10,7 @@ public class FireBallThrower : MonoBehaviour
     private Animator m_Animator;
     private float lifetime;
     public BoxCollider2D boxCollider;
+    public PlayerMovement player;
 
     // Update is called once per frame
     private void Awake()
@@ -22,7 +23,7 @@ public class FireBallThrower : MonoBehaviour
     void Update()
     {
 
-        if (hit)
+        if (hit||player.dead)
         {
             return;
         }
