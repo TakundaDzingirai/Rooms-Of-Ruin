@@ -12,7 +12,6 @@ TagManager:
   - Heart
   - Tail
   - Door
-  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,8 +22,8 @@ TagManager:
   - Ground
   - Wall
   - DeadZone
-  - Player
-  - Enemy
+  - 
+  - 
   - 
   - 
   - 
