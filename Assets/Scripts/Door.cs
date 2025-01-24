@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -14,17 +15,16 @@ public class Door : MonoBehaviour
         if (collision.tag == "Player")
         {
             Debug.Log("Collision with Player detected.");
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
             if (cam == null)
             {
                 Debug.LogError("Cam is not assigned!");
                 return;
             }
 
-            if (collision.transform.position.x < transform.position.x)
+            if (collision.transform.position.x <= transform.position.x)
             {
-          
-                Debug.Log("Moving to Next Room");
-
+               
                 cam.MoveToNewRoom(nextRoom);
                 Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
                 tail.GetComponent<BoxCollider2D>().isTrigger = false;
@@ -37,9 +37,10 @@ public class Door : MonoBehaviour
         }
         else if(collision.tag == "Tail")
         {
-            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
             collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-            Debug.Log("Door Lock");
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+           
+            Debug.Log("Door Lock!!");
 
         }
     }

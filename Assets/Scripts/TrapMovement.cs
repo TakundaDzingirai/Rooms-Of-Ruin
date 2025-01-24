@@ -5,7 +5,7 @@ public class TrapMovement : MonoBehaviour
     public float damage;
     public float speed;
     private Animator animator;
-    public float dir { get; private set; }
+    public float dir;
     public float sawDist;
     private float leftEdge;
     private float rightEdge;
@@ -13,7 +13,7 @@ public class TrapMovement : MonoBehaviour
 
     private void Awake()
     {
-        dir = -1;
+       
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 

@@ -19,8 +19,12 @@ public class CameraScript : MonoBehaviour
 
     public void MoveToNewRoom(Transform _newRoom)
     {
-        // Update the target position
-        currentPosX = _newRoom.position.x+centreCorrection;
+        //player object her and check postiotion
+
+  
+       
+            currentPosX = _newRoom.position.x + centreCorrection;
+      
 
         
     }
