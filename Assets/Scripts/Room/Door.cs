@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public Transform nextRoom;
     public CameraScript cam;
     public float centreCorrection;
+    public SceneSwitch snSw;
 
 
 
@@ -24,13 +25,11 @@ public class Door : MonoBehaviour
 
             if (collision.transform.position.x <= transform.position.x)
             {
-               
-                cam.MoveToNewRoom(nextRoom);
-                Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
-                tail.GetComponent<BoxCollider2D>().isTrigger = false;
-                
-                
-                
+              
+                    cam.MoveToNewRoom(nextRoom);
+                    Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
+                    tail.GetComponent<BoxCollider2D>().isTrigger = false;
+              
 
             }
           

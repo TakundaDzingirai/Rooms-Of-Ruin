@@ -12,6 +12,7 @@ TagManager:
   - Heart
   - Tail
   - Door
+  - Next
   layers:
   - Default
   - TransparentFX
