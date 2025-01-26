@@ -23,11 +23,11 @@ public class Door : MonoBehaviour
                 return;
             }
 
-            if (collision.transform.position.x <= transform.position.x)
+            if (collision.transform.position.x >= transform.position.x)
             {
-              
-                    cam.MoveToNewRoom(nextRoom);
-                    Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
+                Debug.Log("Move next room");
+               
+                Transform tail = collision.gameObject.GetComponent<PlayerMovement>().tail;
                     tail.GetComponent<BoxCollider2D>().isTrigger = false;
               
 
@@ -35,12 +35,21 @@ public class Door : MonoBehaviour
           
         }
         else if(collision.tag == "Tail")
-        {
+        {  
+            //
+            float horizontalval = collision.gameObject.GetComponentInParent<PlayerMovement>().horizontalVal;
+           Debug.Log("horizontalValue "+horizontalval);
+            if (horizontalval > 0)
+            {
+                cam.MoveToNewRoom(nextRoom);
+            }
+            
             collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            
             gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
            
             Debug.Log("Door Lock!!");
-
+  
         }
     }
 

@@ -13,11 +13,12 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public LayerMask wallLayer;
     private float jumpWallCoolDown;
-    private float horizontalVal;
+    public float horizontalVal { get; private set; }
     private bool fall;
     public float xCorrection;
     public Transform tail;
     public GameObject[] dragonParts;
+    public bool bodyEnter { get; private set;}
     public bool dead {  get; private set; }
     
 
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         dead = false;
         fall = false;
+        bodyEnter=false;
+        
     }
     public Animator GetAnimator() { return m_Animator; }    
     public Rigidbody2D GetRigidbody2D() { return m_Rigidbody2; }    
@@ -125,13 +128,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Door")
         {
+            bodyEnter = true;
             if (gameObject.transform.position.x < collision.gameObject.transform.position.x)
             {
                 collision.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
             }
         }
 
-       
     }
     private bool IsGrounded()
     {
@@ -174,9 +177,9 @@ public class PlayerMovement : MonoBehaviour
     {
         fall = true;
     }
-    public void Recentre()
+    public void Resett()
     {
-        transform.position= new Vector3(transform.position.x-xCorrection,transform.position.y,transform.position.z);
+        bodyEnter = false;
     }
 
 
