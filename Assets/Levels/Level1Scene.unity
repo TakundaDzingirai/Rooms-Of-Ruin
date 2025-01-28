@@ -1835,6 +1835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.5
   centreCorrection: 2.588498
+  player: {fileID: 2050565540}
 --- !u!1001 &562733256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6162,6 +6163,11 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 17.303461, y: 0.58600616}
   m_EdgeRadius: 0
+--- !u!4 &2050565540 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3627919650460839356, guid: 5bfce61fc36c8cb4eb15f41056c16531, type: 3}
+  m_PrefabInstance: {fileID: 7092393064962407239}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2065366014
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6930,7 +6936,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2196727211907685370, guid: 8191a7b7e31cbc549aeceada58827668, type: 3}
       propertyPath: m_Name
-      value: Canvas
+      value: LifeBar
       objectReference: {fileID: 0}
     - target: {fileID: 4906057429055394869, guid: 8191a7b7e31cbc549aeceada58827668, type: 3}
       propertyPath: health
